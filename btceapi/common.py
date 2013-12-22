@@ -17,24 +17,44 @@ all_pairs = ("btc_usd", "btc_rur", "btc_eur", "ltc_btc", "ltc_usd",
              "nvc_usd", "usd_rur", "eur_usd", "trc_btc", "ppc_btc",
              "ppc_usd", "ftc_btc", "xpm_btc")
 
-max_digits = {"btc_usd": 3,
-              "btc_rur": 5,
-              "btc_eur": 5,
-              "ltc_btc": 5,
-              "ltc_usd": 6,
-              "ltc_rur": 5,
-              "ltc_eur": 3,
-              "nmc_btc": 5,
-              "nmc_usd": 3,
-              "nvc_btc": 5,
-              "nvc_usd": 3,
-              "usd_rur": 5,
-              "eur_usd": 5,
-              "trc_btc": 5,
-              "ppc_btc": 5,
-              "ppc_usd": 3,
-              "ftc_btc": 5,
-              "xpm_btc": 5}
+max_digits_rate = {"btc_usd": 3,
+                  "btc_rur": 5,
+                  "btc_eur": 5,
+                  "ltc_btc": 5,
+                  "ltc_usd": 6,
+                  "ltc_rur": 5,
+                  "ltc_eur": 3,
+                  "nmc_btc": 5,
+                  "nmc_usd": 3,
+                  "nvc_btc": 5,
+                  "nvc_usd": 3,
+                  "usd_rur": 5,
+                  "eur_usd": 5,
+                  "trc_btc": 5,
+                  "ppc_btc": 5,
+                  "ppc_usd": 3,
+                  "ftc_btc": 5,
+                  "xpm_btc": 5}
+
+# At this moment BTC-e allow us to make orders with 8 digits after comma, for all symbols
+max_digits_amount = {"btc_usd": 8,
+                      "btc_rur": 8,
+                      "btc_eur": 8,
+                      "ltc_btc": 8,
+                      "ltc_usd": 8,
+                      "ltc_rur": 8,
+                      "ltc_eur": 8,
+                      "nmc_btc": 8,
+                      "nmc_usd": 8,
+                      "nvc_btc": 8,
+                      "nvc_usd": 8,
+                      "usd_rur": 8,
+                      "eur_usd": 8,
+                      "trc_btc": 8,
+                      "ppc_btc": 8,
+                      "ppc_usd": 8,
+                      "ftc_btc": 8,
+                      "xpm_btc": 8}
 
 min_orders = {"btc_usd": decimal.Decimal("0.01"),
               "btc_rur": decimal.Decimal("0.1"),
@@ -137,7 +157,7 @@ def validateOrder(pair, trade_type, rate, amount):
         raise Exception("Unrecognized trade type: %r" % trade_type)
 
     minimum_amount = min_orders[pair]
-    formatted_min_amount = formatCurrency(minimum_amount, pair)
+    formatted_min_amount = formatCurrencyAmount(minimum_amount, pair)
     if amount < minimum_amount:
         msg = "Trade amount too small; should be >= %s" % formatted_min_amount
         raise Exception(msg)
@@ -161,5 +181,8 @@ def formatCurrencyDigits(value, digits):
     return s
 
 
-def formatCurrency(value, pair):
-    return formatCurrencyDigits(value, max_digits[pair])
+def formatCurrencyRate(value, pair):
+    return formatCurrencyDigits(value, max_digits_rate[pair])
+
+def formatCurrencyAmount(value, pair):
+    return formatCurrencyDigits(value, max_digits_amount[pair])

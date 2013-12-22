@@ -255,8 +255,8 @@ class TradeAPI(object):
         params = {"method": "Trade",
                   "pair": pair,
                   "type": trade_type,
-                  "rate": common.formatCurrency(rate, pair),
-                  "amount": common.formatCurrency(amount, pair)}
+                  "rate": common.formatCurrencyRate(rate, pair),
+                  "amount": common.formatCurrencyAmount(amount, pair)}
 
         return TradeResult(self._post(params, connection))
 
